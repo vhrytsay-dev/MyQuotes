@@ -3,10 +3,13 @@ package com.example.myquotes
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import com.example.myquotes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var model: QuoteViewModel
 
     private val quotes = listOf(
         Quote(
@@ -25,56 +28,42 @@ class MainActivity : AppCompatActivity() {
             "480 v. Chr."
         )
     )
-    private var index = 0
-    private lateinit var quoteText: TextView
-    private lateinit var quoteAuthor: TextView
-    private lateinit var quoteYear: TextView
-    private lateinit var previous: Button
-    private lateinit var next: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        quoteText = findViewById<TextView>(R.id.quote_text)
-        quoteAuthor = findViewById<TextView>(R.id.quote_author)
-        quoteYear = findViewById<TextView>(R.id.quote_year)
-        previous = findViewById(R.id.quote_previous)
-        next = findViewById(R.id.quote_next)
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        model = ViewModelProvider(this).get(QuoteViewModel::class.java)
         showQuote()
         setVisibilityOfButtons()
     }
 
     fun nextQuote(view: View) {
-        if(index < quotes.size -1) index++
+        if(model.index < quotes.size -1) model.index++
         showQuote()
         setVisibilityOfButtons()
     }
 
     fun previousQuote(view: View) {
-        if(index > 0) index--
+        if(model.index > 0) model.index--
         showQuote()
         setVisibilityOfButtons()
     }
     private fun showQuote() {
-        quoteText.text = quotes[index].text
-        quoteAuthor.text = quotes[index].author
-        quoteYear.text = quotes[index].year
+        binding.quote = quotes[model.index]
     }
 
-    private fun setVisibilityOfButtons() = when (index) {
-            0 -> {
-                previous.visibility = View.INVISIBLE
-                next.visibility = if(quotes.size > 1) View.VISIBLE else View.INVISIBLE
+    private fun setVisibilityOfButtons() = when (model.index) {
+            0 -> binding.apply{
+                quotePrevious.visibility = View.INVISIBLE
+                quoteNext.visibility = if(quotes.size > 1) View.VISIBLE else View.INVISIBLE
             }
-            quotes.size - 1 -> {
-                next.visibility = View.INVISIBLE
-                previous.visibility = if(quotes.size > 1) View.VISIBLE else View.INVISIBLE
+            quotes.size - 1 -> binding.apply{
+                quoteNext.visibility = View.INVISIBLE
+                quotePrevious.visibility = if(quotes.size > 1) View.VISIBLE else View.INVISIBLE
             }
-            else -> {
-                next.visibility = View.VISIBLE
-                previous.visibility = View.VISIBLE
+            else -> binding.apply{
+                quoteNext.visibility = View.VISIBLE
+                quotePrevious.visibility = View.VISIBLE
             }
         }
 }
