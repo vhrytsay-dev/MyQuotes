@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
-            name="quote"
-            type="com.example.myquotes.Quote" />
+            name="viewModel"
+            type="com.example.myquotes.QuoteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +19,7 @@
 
         <TextView
             android:id="@+id/quote_text"
-            android:text="@{quote.text}"
+            android:text="@{viewModel.quote.text}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -34,7 +35,7 @@
         <TextView
             android:id="@+id/quote_author"
             android:layout_width="0dp"
-            android:text="@{quote.author}"
+            android:text="@{viewModel.quote.author}"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
@@ -49,7 +50,7 @@
         <TextView
             android:id="@+id/quote_year"
             android:layout_width="0dp"
-            android:text="@{quote.year}"
+            android:text="@{viewModel.quote.year}"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -67,13 +68,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:onClick="previousQuote"
+            android:onClick="@{() -> viewModel.previousQuote()}"
             android:text="@string/previous"
             app:layout_constraintEnd_toStartOf="@+id/quote_next"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/quote_next" />
+            app:layout_constraintTop_toTopOf="@+id/quote_next"
+            app:hideView="@{viewModel.isFirst}"/>
 
         <Button
             android:id="@+id/quote_next"
@@ -81,12 +83,13 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="28dp"
             android:layout_marginBottom="32dp"
-            android:onClick="nextQuote"
+            android:onClick="@{() -> viewModel.nextQuote()}"
             android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/quote_previous" />
+            app:layout_constraintStart_toEndOf="@+id/quote_previous"
+            app:hideView="@{viewModel.isLast}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
