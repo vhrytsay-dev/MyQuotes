@@ -1,12 +1,9 @@
 package com.example.myquotes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 class QuoteViewModel : ViewModel() {
-    val quotes = listOf(
+    val quotes = mutableListOf(
         Quote(
             "Probleme kann man niemals mit derselben Denkweise lösen, durch die sie entsranden sind.",
             "Albert Einstein",
@@ -24,25 +21,9 @@ class QuoteViewModel : ViewModel() {
         )
     )
 
-    private var index = 0
-    private val _quote = MutableLiveData<Quote>().apply { value = quotes[index] }
-    val quote: LiveData<Quote>
-        get() = _quote
-    val isFirst = Transformations.map(quote) {index == 0}
-    val isLast = Transformations.map(quote){index == quotes.size - 1}
-
-    fun nextQuote() {
-        if(index < quotes.size -1) {
-            index++
-            _quote.value = quotes[index]
-        }
+    fun createQuote(text: String, author: String, year: String) {
+        val quote = Quote(text, author, year)
+        quotes.add(quote)
     }
 
-    fun previousQuote() {
-        if(index > 0) {
-            index--
-            _quote.value = quotes[index]
-        }
-
-    }
 }

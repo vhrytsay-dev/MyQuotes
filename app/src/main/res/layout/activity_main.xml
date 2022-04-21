@@ -10,86 +10,22 @@
             type="com.example.myquotes.QuoteViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutDescription="@xml/activity_main_scene"
-        tools:context=".MainActivity"
-        tools:ignore="MissingClass">
-
-        <TextView
-            android:id="@+id/quote_text"
-            android:text="@{viewModel.quote.text}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:textSize="30sp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nichts ist so beständig wie der Wandel." />
-
-        <TextView
-            android:id="@+id/quote_author"
-            android:layout_width="0dp"
-            android:text="@{viewModel.quote.author}"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:textAlignment="textEnd"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quote_text"
-            tools:text="--Heraklit" />
-
-        <TextView
-            android:id="@+id/quote_year"
-            android:layout_width="0dp"
-            android:text="@{viewModel.quote.year}"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:textAlignment="textEnd"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quote_author"
-            tools:text="480 v. Chr." />
+        android:orientation="vertical">
 
         <Button
-            android:id="@+id/quote_previous"
-            android:layout_width="wrap_content"
+            android:id="@+id/quote_add"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:onClick="@{() -> viewModel.previousQuote()}"
-            android:text="@string/previous"
-            app:layout_constraintEnd_toStartOf="@+id/quote_next"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/quote_next"
-            app:hideView="@{viewModel.isFirst}"/>
+            android:text="@string/new_quote"
+            android:onClick="addQuote"/>
 
-        <Button
-            android:id="@+id/quote_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="28dp"
-            android:layout_marginBottom="32dp"
-            android:onClick="@{() -> viewModel.nextQuote()}"
-            android:text="@string/next"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/quote_previous"
-            app:hideView="@{viewModel.isLast}"/>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/quote_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

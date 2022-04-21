@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">MyQuotes</string>
-    <string name="next">Nächstes</string>
-    <string name="previous">Voriges</string>
+    <string name="new_quote">Neues Zitat</string>
+    <string name="hint_quote_text">Zitat</string>
+    <string name="hint_quote_author">Author</string>
+    <string name="hint_quote_year">Jahr</string>
+    <string name="abort">Abbrechen</string>
+    <string name="ok">Ok</string>
+    <string name="new_quote_title">Neus Zitat</string>
 </resources>
