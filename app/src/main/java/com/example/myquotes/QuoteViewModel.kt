@@ -1,26 +1,20 @@
 package com.example.myquotes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
+import com.example.myquotes.database.AppDatabase
+import kotlinx.coroutines.launch
 
-class QuoteViewModel : ViewModel() {
+class QuoteViewModel(application: Application) : AndroidViewModel(application) {
     var newQuoteAdded = false
-    private val _quotes = MutableLiveData<MutableList<Quote>>().apply {
-        value = mutableListOf()
-    }
+    private var quoteDao = AppDatabase.getDatabase(application).quoteDao()
+    val quotes = quoteDao.getQuotes()
 
     var hasNoQuotes = Transformations.map(quotes){quotes.value.isNullOrEmpty()}
 
-    val quotes: LiveData<MutableList<Quote>>
-        get() = _quotes
+    fun createQuote(text: String, author: String, year: String) = viewModelScope.launch {
+        newQuoteAdded = true
+        quoteDao.insert(Quote(text, author, year))
+    }
 
-        fun createQuote(text: String, author: String, year: String) {
-            newQuoteAdded = true
-            val quote = Quote(text, author, year)
-            val list = _quotes.value ?: mutableListOf()
-            list.add(quote)
-            _quotes.value = list
-        }
 }
