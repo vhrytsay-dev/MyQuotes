@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.myquotes.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.dialog_new_quote.*
 
@@ -22,9 +25,13 @@ class MainActivity : AppCompatActivity() {
 
         val viewPager = binding.quoteViewPager
         val adapter = QuoteViewPagerAdapter()
-        adapter.setQuotes(viewModel.quotes)
         viewPager.adapter = adapter
-
+        viewModel.quotes.observe(this, Observer { quotes ->
+            adapter.setQuotes(quotes)
+            if(viewModel.newQuoteAdded){
+                viewPager.setCurrentItem(quotes.size - 1, true)
+            }
+        })
     }
 
     fun addQuote(view: View){
